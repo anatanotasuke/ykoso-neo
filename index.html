@@ -1,60 +1,165 @@
-class="content-page" id="entry4">
-    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
-    <p>Я знаю как ему плохо...</p>
-  </div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>いらっしゃいませ！</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Roboto&family=Caveat&display=swap" rel="stylesheet" />
 
-  <div class="content-page" id="entry5">
-    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
-    <p>Я нашел записку на улице...</p>
-  </div>
-
-  <div class="content-page" id="entry6">
-    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
-    <p>Мио.. любимая мио...</p>
-  </div>
-
-  <script>
-    let vibrationInterval;
-
-    function startVibrationLoop() {
-      if (!navigator.vibrate) return;
-      navigator.vibrate([200, 100, 200, 100, 200, 100, 300]);
-      vibrationInterval = setInterval(() => {
-        navigator.vibrate([200, 100, 200, 100, 200, 100, 300]);
-      }, 1200);
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
     }
 
-    function stopVibrationLoop() {
-      if (!navigator.vibrate) return;
-      navigator.vibrate(0);
-      clearInterval(vibrationInterval);
+    .section {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 40px 20px;
     }
 
-    function showPage(pageId) {
-      document.querySelectorAll('.content-page, .section').forEach(el => {
-        el.style.display = 'none';
-      });
-      document.getElementById(pageId).style.display = 'block';
+    .welcome {
+      background-color: red;
+      color: white;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+    }
 
-      if (pageId === 'entry3') {
-        startVibrationLoop();
-      } else {
-        stopVibrationLoop();
+    .welcome h1 {
+      font-size: 3.5em;
+      margin: 0;
+    }
+
+    .welcome .button {
+      margin-top: 40px;
+      font-size: 1.4em;
+      padding: 12px 25px;
+      background-color: white;
+      color: red;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .content-page {
+      min-height: 100vh;
+      display: none;
+      padding: 60px 30px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .content-page p {
+      font-size: 1.2em;
+      white-space: pre-wrap;
+      color: black;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1em;
+      background-color: #c00;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .record-button {
+      font-size: 1.2em;
+      margin: 10px 0;
+      padding: 10px 20px;
+      border: 2px solid red;
+      background-color: white;
+      color: red;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+    }
+
+    @keyframes flashBackground {
+      0%, 100% { background-color: black; }
+      50% { background-color: red; }
+    }
+
+    .flash-bg {
+      animation: flashBackground 0.1s infinite;
+      color: white;
+    }
+
+    .flash-bg p {
+      color: white;
+      font-family: 'Caveat', cursive;
+      font-size: 8em;  /* В 2 раза больше чем было */
+      text-align: center;
+      margin-top: 120px;
+    }
+
+    @media (max-width: 600px) {
+      .welcome h1 {
+        font-size: 2.2em;
+      }
+
+      .record-button {
+        font-size: 1em;
+        padding: 8px 15px;
+      }
+
+      .back-button {
+        padding: 8px 14px;
+        font-size: 0.9em;
       }
     }
+  </style>
+</head>
+<body>
 
-    function goBack() {
-      stopVibrationLoop();
-      showPage('home');
-    }
+  <div class="section welcome" id="home">
+    <h1>*いらっしゃいませ！*</h1>
+    <button class="button" onclick="showPage('messagePage')">ОбP4щение</button>
+    <button class="button" onclick="showPage('recordsPage')">3аписи</button>
+  </div>
 
-    function stopVibrationAndBack() {
-      stopVibrationLoop();
-      showPage('home');
-    }
-  </script>
+  <div class="content-page" id="messagePage">
+    <button class="back-button" onclick="goBack()">Н4з4д.:)</button>
+    <h2>ОбP4щение</h2>
+    <p>?тексттттт*</p>
+  </div>
 
-</body>
-</html>
+  <div class="content-page" id="recordsPage">
+    <button class="back-button" onclick="goBack()">Н4з4д.:)</button>
+    <h2>3аписи</h2>
+    <button class="record-button" onclick="showPage('entry1')">Новая запись май 2017.</button>
+    <button class="record-button" onclick="showPage('entry2')">Новая запись май 2017.</button>
+    <button class="record-button" onclick="showPage('entry3')">Новая запись.</button>
+    <button class="record-button" onclick="showPage('entry4')">Новая запись ноябрь 2019.</button>
+    <button class="record-button" onclick="showPage('entry5')">Новая запись ноябрь 2019.</button>
+    <button class="record-button" onclick="showPage('entry6')">Новая запись декабрь 2019.</button>
+  </div>
 
+  <div class="content-page" id="entry1">
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
+    <p>недоступно.</p>
+  </div>
+
+  <div class="content-page" id="entry2">
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
+    <p>Я нашел его, плача в больнице...  
+ЕГО СЕСТРА  
+НЕТ.. ЕГО СЕСТРА.</p>
+  </div>
+
+  <div class="content-page flash-bg" id="entry3">
+    <button class="back-button" onclick="stopVibrationAndBack()">Н4з4д.:)</button>
+    <p>Записи утеряны.</p>
+  </div>
+
+  <div
 
