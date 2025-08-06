@@ -48,6 +48,7 @@
       display: none;
       padding: 60px 30px;
       box-sizing: border-box;
+      width: 100%;
     }
 
     .content-page p {
@@ -100,6 +101,22 @@
       text-align: center;
       margin-top: 120px;
     }
+
+    @media (max-width: 600px) {
+      .welcome h1 {
+        font-size: 2.2em;
+      }
+
+      .record-button {
+        font-size: 1em;
+        padding: 8px 15px;
+      }
+
+      .back-button {
+        padding: 8px 14px;
+        font-size: 0.9em;
+      }
+    }
   </style>
 </head>
 <body>
@@ -134,8 +151,8 @@
 
   <div class="content-page" id="entry2">
     <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
-    <p>Я нашел его, плача в больнице...
-ЕГО СЕСТРА
+    <p>Я нашел его, плача в больнице...  
+ЕГО СЕСТРА  
 НЕТ.. ЕГО СЕСТРА.</p>
   </div>
 
@@ -160,27 +177,46 @@
   </div>
 
   <script>
+    let vibrationInterval;
+
+    function startVibrationLoop() {
+      if (!navigator.vibrate) return;
+      navigator.vibrate([200, 100, 200, 100, 200, 100, 300]);
+      vibrationInterval = setInterval(() => {
+        navigator.vibrate([200, 100, 200, 100, 200, 100, 300]);
+      }, 1200);
+    }
+
+    function stopVibrationLoop() {
+      if (!navigator.vibrate) return;
+      navigator.vibrate(0);
+      clearInterval(vibrationInterval);
+    }
+
     function showPage(pageId) {
       document.querySelectorAll('.content-page, .section').forEach(el => {
         el.style.display = 'none';
       });
       document.getElementById(pageId).style.display = 'block';
 
-      // вибрация на entry3
-      if (pageId === 'entry3' && navigator.vibrate) {
-        navigator.vibrate([200, 100, 200, 100, 200, 100, 300]);
+      if (pageId === 'entry3') {
+        startVibrationLoop();
+      } else {
+        stopVibrationLoop();
       }
     }
 
     function goBack() {
-      stopVibrationAndBack();
+      stopVibrationLoop();
+      showPage('home');
     }
 
     function stopVibrationAndBack() {
-      if (navigator.vibrate) navigator.vibrate(0); // Остановить вибрацию
+      stopVibrationLoop();
       showPage('home');
     }
   </script>
 
 </body>
 </html>
+
