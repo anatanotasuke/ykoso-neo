@@ -43,13 +43,17 @@
       cursor: pointer;
     }
 
+    .welcome .button + .button {
+      margin-left: 15px;
+    }
+
     .content-page {
       min-height: 100vh;
       display: none;
       padding: 60px 30px;
       box-sizing: border-box;
       width: 100%;
-      position: relative; /* важно для абсолютных кнопок */
+      position: relative;
     }
 
     .content-page p {
@@ -70,7 +74,7 @@
       padding: 10px 18px;
       cursor: pointer;
       font-weight: 600;
-      z-index: 10; /* чтобы кнопка была выше других элементов */
+      z-index: 10;
     }
 
     .record-button {
@@ -86,7 +90,6 @@
       text-align: left;
     }
 
-    /* Новый стиль для японского слова в начале */
     .japanese-title {
       text-align: center;
       font-weight: 700;
@@ -96,7 +99,6 @@
       margin: 20px 0 0 0;
     }
 
-    /* Новый стиль для записи утеряны */
     .lost-records-text {
       text-align: center;
       font-weight: 700;
@@ -129,6 +131,11 @@
         font-size: 1.2em;
         margin-top: 100px;
       }
+
+      .welcome .button + .button {
+        margin-left: 0;
+        margin-top: 15px;
+      }
     }
   </style>
 </head>
@@ -158,6 +165,7 @@
     <button class="record-button" onclick="showPage('entry4')">Новая запись ноябрь 2019.</button>
     <button class="record-button" onclick="showPage('entry5')">Новая запись ноябрь 2019.</button>
     <button class="record-button" onclick="showPage('entry6')">Новая запись декабрь 2019.</button>
+    <button class="record-button" onclick="showPage('entry7')">Новая запись ноябрь 2019.</button>
   </div>
 
   <div class="content-page" id="entry1">
@@ -169,11 +177,11 @@
     <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
     <p>Я нашел его, плача в больнице.
 Он был одинок, я прочитал его, его сестра.ЮUЃќ«%Ъ-Уљ®Ёб†№+—Ё_ЧЈ^ТЛ®ІdЊє ЕГО СЕСТРА ¶эФdklџq¶е°`ыЩѕ НЕТ.. ЕГО СЕСТРА. ¶б†№+—Ёlџq¶е°`
-	.</p>
+.</p>
   </div>
 
   <div class="content-page" id="entry3">
-    <button class="back-button" onclick="stopVibrationAndBack()">Н4з4д.:)</button>
+    <button class="back-button" onclick="stopVibrationAndGoToRecords()">Н4з4д.:)</button>
     <p class="lost-records-text">*записи утеряны*</p>
   </div>
 
@@ -193,6 +201,11 @@
   <div class="content-page" id="entry6">
     <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
     <p>Мио.. любимая мио...</p>
+  </div>
+
+  <div class="content-page" id="entry7">
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
+    <p>нЕт он..  он не один.. у него.. есть ... друZ&gt;ьь¶Яd НЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕТ.........</p>
   </div>
 
   <script>
@@ -216,7 +229,7 @@
       document.querySelectorAll('.content-page, .section').forEach(el => {
         el.style.display = 'none';
       });
-      document.getElementById(pageId).style.display = 'block'; // display block, не flex
+      document.getElementById(pageId).style.display = 'block';
 
       if (pageId === 'entry3') {
         startVibrationLoop();
@@ -230,10 +243,15 @@
       showPage('home');
     }
 
-    function stopVibrationAndBack() {
+    function stopVibrationAndGoToRecords() {
       stopVibrationLoop();
-      showPage('home');
+      showPage('recordsPage');
     }
+
+    // Показываем стартовую страницу при загрузке
+    document.addEventListener('DOMContentLoaded', () => {
+      showPage('home');
+    });
   </script>
 
 </body>
