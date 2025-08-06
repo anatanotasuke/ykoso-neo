@@ -12,23 +12,29 @@
     }
 
     .section {
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      height: 100vh;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .welcome {
       background-color: red;
       color: white;
     }
 
-    .section h1 {
-      font-size: 4em;
-      margin-bottom: 30px;
+    .welcome h1 {
+      font-size: 3.5em;
+      margin: 0;
     }
 
     .button {
-      font-size: 1.5em;
-      padding: 15px 30px;
+      margin-top: 40px;
+      font-size: 1.4em;
+      padding: 12px 25px;
       background-color: white;
       color: red;
       border: none;
@@ -37,8 +43,10 @@
     }
 
     .content-page {
+      min-height: 100vh;
       display: none;
-      padding: 20px;
+      padding: 60px 30px;
+      box-sizing: border-box;
     }
 
     .back-button {
@@ -55,12 +63,17 @@
       font-weight: 600;
     }
 
-    .flash-bg {
-      animation: flashBackground 0.02s infinite;
-      background-color: black;
-      color: white;
-      height: 100vh;
-      position: relative;
+    .record-button {
+      font-size: 1.2em;
+      margin: 10px 0;
+      padding: 10px 20px;
+      border: 2px solid red;
+      background-color: white;
+      color: red;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
     }
 
     @keyframes flashBackground {
@@ -68,13 +81,37 @@
       50% { background-color: red; }
     }
 
+    .flash-bg {
+      animation: flashBackground 0.02s infinite;
+      color: white;
+    }
+
     .flash-bg p {
-      font-size: 6em;
-      font-weight: 900;
       color: black;
-      font-family: Arial Black, Impact, sans-serif;
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 6em;
       text-align: center;
-      margin-top: 40vh;
+      margin-top: 35vh;
+    }
+
+    @media (max-width: 600px) {
+      .welcome h1 {
+        font-size: 2.2em;
+      }
+
+      .record-button {
+        font-size: 1em;
+        padding: 8px 15px;
+      }
+
+      .back-button {
+        padding: 8px 14px;
+        font-size: 0.9em;
+      }
+
+      .flash-bg p {
+        font-size: 3.5em;
+      }
     }
   </style>
 </head>
@@ -85,58 +122,51 @@
     <source src="https://cdn.freesound.org/previews/794/794212_20312049-lq.mp3" type="audio/mpeg" />
   </audio>
 
-  <!-- Главная страница -->
-  <div class="section" id="home">
+  <!-- Главная -->
+  <div class="section welcome" id="home">
     <h1>いらっしゃいませ！</h1>
-    <button class="button" onclick="showPage('entry3')">Новая запись</button>
+    <button class="button" onclick="showPage('messagePage')">Обращение</button>
+    <button class="button" onclick="showPage('recordsPage')">Записи</button>
   </div>
 
-  <!-- Запись 3 -->
+  <!-- Обращение -->
+  <div class="content-page" id="messagePage">
+    <button class="back-button" onclick="goBack()">Назад</button>
+    <h2>Обращение</h2>
+    <p>?тексттттт*</p>
+  </div>
+
+  <!-- Записи -->
+  <div class="content-page" id="recordsPage">
+    <button class="back-button" onclick="goBack()">Назад</button>
+    <h2>Записи</h2>
+    <button class="record-button" onclick="showPage('entry1')">Новая запись май 2017.</button>
+    <button class="record-button" onclick="showPage('entry2')">Новая запись май 2017.</button>
+    <button class="record-button" onclick="showPage('entry3')">Новая запись.</button>
+    <button class="record-button" onclick="showPage('entry4')">Новая запись ноябрь 2019.</button>
+    <button class="record-button" onclick="showPage('entry5')">Новая запись ноябрь 2019.</button>
+    <button class="record-button" onclick="showPage('entry6')">Новая запись декабрь 2019.</button>
+  </div>
+
+  <!-- Entry Pages -->
+  <div class="content-page" id="entry1">
+    <button class="back-button" onclick="showPage('recordsPage')">Назад</button>
+    <p>недоступно.</p>
+  </div>
+
+  <div class="content-page" id="entry2">
+    <button class="back-button" onclick="showPage('recordsPage')">Назад</button>
+    <p>Я нашел его, плача в больнице...  
+ЕГО СЕСТРА  
+НЕТ.. ЕГО СЕСТРА.</p>
+  </div>
+
   <div class="content-page flash-bg" id="entry3">
-    <button class="back-button" onclick="stopVibrationAndBack()">Н4з4д.:)</button>
+    <button class="back-button" onclick="stopVibrationAndBack()">Назад</button>
     <p>ЗАПИСИ УТЕРЯНЫ.</p>
   </div>
 
-  <script>
-    let vibrationInterval = null;
-
-    function showPage(pageId) {
-      document.querySelectorAll('.content-page, .section').forEach(el => el.style.display = 'none');
-      document.getElementById(pageId).style.display = 'block';
-
-      if (pageId === 'entry3') {
-        startVibrationLoop();
-
-        // звук срабатывает после первого клика по экрану
-        document.body.addEventListener('click', playEntry3SoundOnce, { once: true });
-      }
-    }
-
-    function stopVibrationAndBack() {
-      if (vibrationInterval) clearInterval(vibrationInterval);
-      if (navigator.vibrate) navigator.vibrate(0);
-      showPage('home');
-    }
-
-    function startVibrationLoop() {
-      if (navigator.vibrate) {
-        vibrationInterval = setInterval(() => {
-          navigator.vibrate([200, 100, 200]);
-        }, 600);
-      }
-    }
-
-    function playEntry3SoundOnce() {
-      const audio = document.getElementById('entry3Sound');
-      if (audio) {
-        audio.currentTime = 0;
-        audio.play().catch(err => {
-          console.log("Звук не воспроизводится автоматически:", err);
-        });
-      }
-    }
-  </script>
-</body>
-</html>
+  <div class="content-page" id="entry4">
+    <butto
 
 
