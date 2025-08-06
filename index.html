@@ -91,13 +91,13 @@
 
     .flash-bg {
       animation: flashBackground 0.1s infinite;
-      color: white;
     }
 
     .flash-bg p {
-      color: white;
-      font-family: 'Caveat', cursive;
-      font-size: 8em;  /* В 2 раза больше чем было */
+      color: black;
+      font-family: 'Impact', 'Arial Black', sans-serif;
+      font-size: 6em;
+      font-weight: bold;
       text-align: center;
       margin-top: 120px;
     }
@@ -116,10 +116,16 @@
         padding: 8px 14px;
         font-size: 0.9em;
       }
+
+      .flash-bg p {
+        font-size: 3em;
+      }
     }
   </style>
 </head>
 <body>
+
+  <audio id="entry3Sound" src="https://freesound.org/data/previews/794/794212_1285734-lq.mp3" preload="auto"></audio>
 
   <div class="section welcome" id="home">
     <h1>*いらっしゃいませ！*</h1>
@@ -193,6 +199,16 @@
       clearInterval(vibrationInterval);
     }
 
+    function playEntry3Sound() {
+      const audio = document.getElementById('entry3Sound');
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(err => {
+          console.log("Звук не воспроизведён:", err);
+        });
+      }
+    }
+
     function showPage(pageId) {
       document.querySelectorAll('.content-page, .section').forEach(el => {
         el.style.display = 'none';
@@ -201,14 +217,14 @@
 
       if (pageId === 'entry3') {
         startVibrationLoop();
+        playEntry3Sound();
       } else {
         stopVibrationLoop();
       }
     }
 
     function goBack() {
-      stopVibrationLoop();
-      showPage('home');
+      stopVibrationAndBack();
     }
 
     function stopVibrationAndBack() {
