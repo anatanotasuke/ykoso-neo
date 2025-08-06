@@ -13,24 +13,22 @@
 
     .section {
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
       height: 100vh;
-      text-align: center;
       background-color: red;
       color: white;
     }
 
     .section h1 {
       font-size: 4em;
-      margin: 0;
+      margin-bottom: 30px;
     }
 
     .button {
-      margin-top: 40px;
-      font-size: 1.4em;
-      padding: 12px 25px;
+      font-size: 1.5em;
+      padding: 15px 30px;
       background-color: white;
       color: red;
       border: none;
@@ -40,8 +38,7 @@
 
     .content-page {
       display: none;
-      padding: 60px 30px;
-      box-sizing: border-box;
+      padding: 20px;
     }
 
     .back-button {
@@ -56,21 +53,14 @@
       padding: 10px 18px;
       cursor: pointer;
       font-weight: 600;
-      z-index: 10;
     }
 
-    /* Мерцание и центрирование */
     .flash-bg {
       animation: flashBackground 0.02s infinite;
       background-color: black;
       color: white;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
-      flex-direction: column;
-      text-align: center;
+      position: relative;
     }
 
     @keyframes flashBackground {
@@ -83,22 +73,25 @@
       font-weight: 900;
       color: black;
       font-family: Arial Black, Impact, sans-serif;
-      margin: 0;
+      text-align: center;
+      margin-top: 40vh;
     }
   </style>
 </head>
 <body>
 
   <!-- 🔊 Звук -->
-  <audio id="alertSound" src="https://cdn.freesound.org/previews/794/794212_20312049-lq.mp3" preload="auto"></audio>
+  <audio id="entry3Sound" preload="auto">
+    <source src="https://cdn.freesound.org/previews/794/794212_20312049-lq.mp3" type="audio/mpeg" />
+  </audio>
 
-  <!-- 🟥 Главная -->
+  <!-- Главная страница -->
   <div class="section" id="home">
     <h1>いらっしゃいませ！</h1>
     <button class="button" onclick="showPage('entry3')">Новая запись</button>
   </div>
 
-  <!-- ⚠️ Новая запись (с вибрацией + звуком) -->
+  <!-- Запись 3 -->
   <div class="content-page flash-bg" id="entry3">
     <button class="back-button" onclick="stopVibrationAndBack()">Н4з4д.:)</button>
     <p>ЗАПИСИ УТЕРЯНЫ.</p>
@@ -112,19 +105,10 @@
       document.getElementById(pageId).style.display = 'block';
 
       if (pageId === 'entry3') {
-        // Вибрация
-        if (navigator.vibrate) {
-          vibrationInterval = setInterval(() => {
-            navigator.vibrate([200, 100, 200]);
-          }, 600);
-        }
+        startVibrationLoop();
 
-        // Звук
-        const sound = document.getElementById('alertSound');
-        sound.currentTime = 0;
-        sound.play().catch(e => {
-          console.warn('Аудио не может быть воспроизведено автоматически:', e);
-        });
+        // звук срабатывает после первого клика по экрану
+        document.body.addEventListener('click', playEntry3SoundOnce, { once: true });
       }
     }
 
@@ -133,7 +117,26 @@
       if (navigator.vibrate) navigator.vibrate(0);
       showPage('home');
     }
+
+    function startVibrationLoop() {
+      if (navigator.vibrate) {
+        vibrationInterval = setInterval(() => {
+          navigator.vibrate([200, 100, 200]);
+        }, 600);
+      }
+    }
+
+    function playEntry3SoundOnce() {
+      const audio = document.getElementById('entry3Sound');
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(err => {
+          console.log("Звук не воспроизводится автоматически:", err);
+        });
+      }
+    }
   </script>
 </body>
 </html>
+
 
