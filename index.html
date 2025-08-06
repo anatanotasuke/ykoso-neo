@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <title>いらっしゃいませ！</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Roboto&family=Caveat&display=swap" rel="stylesheet" />
 
   <style>
     body {
       margin: 0;
-      font-family: 'Noto Sans JP', sans-serif;
+      font-family: 'Roboto', sans-serif;
     }
 
     .section {
@@ -24,6 +24,7 @@
     .welcome {
       background-color: red;
       color: white;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
     }
 
     .welcome h1 {
@@ -31,7 +32,7 @@
       margin: 0;
     }
 
-    .button {
+    .welcome .button {
       margin-top: 40px;
       font-size: 1.4em;
       padding: 12px 25px;
@@ -47,6 +48,13 @@
       display: none;
       padding: 60px 30px;
       box-sizing: border-box;
+      width: 100%;
+    }
+
+    .content-page p {
+      font-size: 1.2em;
+      white-space: pre-wrap;
+      color: black;
     }
 
     .back-button {
@@ -82,16 +90,16 @@
     }
 
     .flash-bg {
-      animation: flashBackground 0.02s infinite;
-      color: white;
+      animation: flashBackground 0.1s infinite;
     }
 
     .flash-bg p {
       color: black;
-      font-family: 'Arial Black', Impact, sans-serif;
+      font-family: 'Impact', 'Arial Black', sans-serif;
       font-size: 6em;
+      font-weight: bold;
       text-align: center;
-      margin-top: 35vh;
+      margin-top: 120px;
     }
 
     @media (max-width: 600px) {
@@ -110,36 +118,30 @@
       }
 
       .flash-bg p {
-        font-size: 3.5em;
+        font-size: 3em;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- 🔊 Звук -->
-  <audio id="entry3Sound" preload="auto">
-    <source src="https://cdn.freesound.org/previews/794/794212_20312049-lq.mp3" type="audio/mpeg" />
-  </audio>
+  <audio id="entry3Sound" src="https://freesound.org/data/previews/794/794212_1285734-lq.mp3" preload="auto"></audio>
 
-  <!-- Главная -->
   <div class="section welcome" id="home">
-    <h1>いらっしゃいませ！</h1>
-    <button class="button" onclick="showPage('messagePage')">Обращение</button>
-    <button class="button" onclick="showPage('recordsPage')">Записи</button>
+    <h1>*いらっしゃいませ！*</h1>
+    <button class="button" onclick="showPage('messagePage')">ОбP4щение</button>
+    <button class="button" onclick="showPage('recordsPage')">3аписи</button>
   </div>
 
-  <!-- Обращение -->
   <div class="content-page" id="messagePage">
-    <button class="back-button" onclick="goBack()">Назад</button>
-    <h2>Обращение</h2>
+    <button class="back-button" onclick="goBack()">Н4з4д.:)</button>
+    <h2>ОбP4щение</h2>
     <p>?тексттттт*</p>
   </div>
 
-  <!-- Записи -->
   <div class="content-page" id="recordsPage">
-    <button class="back-button" onclick="goBack()">Назад</button>
-    <h2>Записи</h2>
+    <button class="back-button" onclick="goBack()">Н4з4д.:)</button>
+    <h2>3аписи</h2>
     <button class="record-button" onclick="showPage('entry1')">Новая запись май 2017.</button>
     <button class="record-button" onclick="showPage('entry2')">Новая запись май 2017.</button>
     <button class="record-button" onclick="showPage('entry3')">Новая запись.</button>
@@ -148,25 +150,91 @@
     <button class="record-button" onclick="showPage('entry6')">Новая запись декабрь 2019.</button>
   </div>
 
-  <!-- Entry Pages -->
   <div class="content-page" id="entry1">
-    <button class="back-button" onclick="showPage('recordsPage')">Назад</button>
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
     <p>недоступно.</p>
   </div>
 
   <div class="content-page" id="entry2">
-    <button class="back-button" onclick="showPage('recordsPage')">Назад</button>
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
     <p>Я нашел его, плача в больнице...  
 ЕГО СЕСТРА  
 НЕТ.. ЕГО СЕСТРА.</p>
   </div>
 
   <div class="content-page flash-bg" id="entry3">
-    <button class="back-button" onclick="stopVibrationAndBack()">Назад</button>
-    <p>ЗАПИСИ УТЕРЯНЫ.</p>
+    <button class="back-button" onclick="stopVibrationAndBack()">Н4з4д.:)</button>
+    <p>Записи утеряны.</p>
   </div>
 
   <div class="content-page" id="entry4">
-    <butto
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
+    <p>Я знаю как ему плохо...</p>
+  </div>
+
+  <div class="content-page" id="entry5">
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
+    <p>Я нашел записку на улице...</p>
+  </div>
+
+  <div class="content-page" id="entry6">
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
+    <p>Мио.. любимая мио...</p>
+  </div>
+
+  <script>
+    let vibrationInterval;
+
+    function startVibrationLoop() {
+      if (!navigator.vibrate) return;
+      navigator.vibrate([200, 100, 200, 100, 200, 100, 300]);
+      vibrationInterval = setInterval(() => {
+        navigator.vibrate([200, 100, 200, 100, 200, 100, 300]);
+      }, 1200);
+    }
+
+    function stopVibrationLoop() {
+      if (!navigator.vibrate) return;
+      navigator.vibrate(0);
+      clearInterval(vibrationInterval);
+    }
+
+    function playEntry3Sound() {
+      const audio = document.getElementById('entry3Sound');
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(err => {
+          console.log("Звук не воспроизведён:", err);
+        });
+      }
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll('.content-page, .section').forEach(el => {
+        el.style.display = 'none';
+      });
+      document.getElementById(pageId).style.display = 'block';
+
+      if (pageId === 'entry3') {
+        startVibrationLoop();
+        playEntry3Sound();
+      } else {
+        stopVibrationLoop();
+      }
+    }
+
+    function goBack() {
+      stopVibrationAndBack();
+    }
+
+    function stopVibrationAndBack() {
+      stopVibrationLoop();
+      showPage('home');
+    }
+  </script>
+
+</body>
+</html>
+
 
 
