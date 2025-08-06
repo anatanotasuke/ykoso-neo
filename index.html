@@ -4,25 +4,9 @@
   <meta charset="UTF-8" />
   <title>Страница</title>
   <style>
-    /* Стили для "записи утеряны" */
     .lost-records {
       font-weight: bold;
       color: black;
-    }
-
-    /* Контейнер для кнопок на главной странице - чтобы они были в ряд */
-    #home {
-      display: flex;
-      gap: 10px; /* расстояние между кнопками */
-      justify-content: center;
-      margin-top: 20px;
-    }
-
-    /* Немного стилей для кнопок */
-    #home button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
     }
   </style>
 </head>
@@ -33,24 +17,18 @@
     <p class="lost-records">записи утеряны</p>
   </div>
 
-  <!-- Главная страница -->
-  <div class="content-page" id="home">
-    <button onclick="showPage('entry4')">Обращение</button>
-    <button onclick="showPage('recordsPage')">Записи</button>
-  </div>
-
-  <div class="content-page" id="entry4" style="display:none;">
-    <button class="back-button" onclick="showPage('home')">Н4з4д.:)</button>
+  <div class="content-page" id="entry4">
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
     <p>Я знаю как ему плохо...</p>
   </div>
 
-  <div class="content-page" id="entry5" style="display:none;">
-    <button class="back-button" onclick="showPage('home')">Н4з4д.:)</button>
+  <div class="content-page" id="entry5">
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
     <p>Я нашел записку на улице...</p>
   </div>
 
-  <div class="content-page" id="entry6" style="display:none;">
-    <button class="back-button" onclick="showPage('home')">Н4з4д.:)</button>
+  <div class="content-page" id="entry6">
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
     <p>Мио.. любимая мио...</p>
   </div>
 
@@ -72,19 +50,11 @@
     }
 
     function showPage(pageId) {
-      document.querySelectorAll('.content-page').forEach(el => {
+      document.querySelectorAll('.content-page, .section').forEach(el => {
         el.style.display = 'none';
       });
-      const page = document.getElementById(pageId);
-      if (page) {
-        // Для главной страницы оставляем flex (чтобы кнопки в ряд), для остальных — block
-        if (pageId === 'home') {
-          page.style.display = 'flex';
-        } else {
-          page.style.display = 'block';
-        }
-      }
-      
+      document.getElementById(pageId).style.display = 'block';
+
       if (pageId === 'entry3') {
         startVibrationLoop();
       } else {
@@ -92,13 +62,19 @@
       }
     }
 
-    // Показываем главную страницу при загрузке
-    showPage('home');
+    function goBack() {
+      stopVibrationLoop();
+      showPage('home');
+    }
+
+    function stopVibrationAndBack() {
+      stopVibrationLoop();
+      showPage('home');
+    }
   </script>
 
 </body>
 </html>
-
 
 
 
