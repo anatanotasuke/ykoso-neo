@@ -49,6 +49,7 @@
       padding: 60px 30px;
       box-sizing: border-box;
       width: 100%;
+      position: relative;
     }
 
     .content-page p {
@@ -84,22 +85,24 @@
       text-align: left;
     }
 
-    @keyframes flashBackground {
-      0%, 100% { background-color: black; }
-      50% { background-color: red; }
-    }
-
-    .flash-bg {
-      animation: flashBackground 0.1s infinite;
-      color: white;
-    }
-
-    .flash-bg p {
-      color: white;
-      font-family: 'Caveat', cursive;
-      font-size: 8em;  /* В 2 раза больше чем было */
+    /* Новый стиль для японского слова в начале */
+    .japanese-title {
       text-align: center;
-      margin-top: 120px;
+      font-weight: 700;
+      color: black;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 2.5em;
+      margin: 20px 0 0 0;
+    }
+
+    /* Новый стиль для записи утеряны */
+    .lost-records-text {
+      text-align: center;
+      font-weight: 700;
+      color: black;
+      font-size: 1.5em;
+      margin-top: 150px;
+      font-family: 'Roboto', sans-serif;
     }
 
     @media (max-width: 600px) {
@@ -116,10 +119,22 @@
         padding: 8px 14px;
         font-size: 0.9em;
       }
+
+      .japanese-title {
+        font-size: 1.8em;
+      }
+
+      .lost-records-text {
+        font-size: 1.2em;
+        margin-top: 100px;
+      }
     }
   </style>
 </head>
 <body>
+
+  <!-- Японское слово по центру в начале страницы -->
+  <div class="japanese-title">記録</div>
 
   <div class="section welcome" id="home">
     <h1>*いらっしゃいませ！*</h1>
@@ -156,10 +171,66 @@
 НЕТ.. ЕГО СЕСТРА.</p>
   </div>
 
-  <div class="content-page flash-bg" id="entry3">
+  <div class="content-page" id="entry3">
     <button class="back-button" onclick="stopVibrationAndBack()">Н4з4д.:)</button>
-    <p>Записи утеряны.</p>
+    <p class="lost-records-text">*записи утеряны*</p>
   </div>
 
-  <div
+  <div class="content-page" id="entry4">
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
+    <p>Я знаю как ему плохо...</p>
+  </div>
 
+  <div class="content-page" id="entry5">
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
+    <p>Я нашел записку на улице...</p>
+  </div>
+
+  <div class="content-page" id="entry6">
+    <button class="back-button" onclick="showPage('recordsPage')">Н4з4д.:)</button>
+    <p>Мио.. любимая мио...</p>
+  </div>
+
+  <script>
+    let vibrationInterval;
+
+    function startVibrationLoop() {
+      if (!navigator.vibrate) return;
+      navigator.vibrate([200, 100, 200, 100, 200, 100, 300]);
+      vibrationInterval = setInterval(() => {
+        navigator.vibrate([200, 100, 200, 100, 200, 100, 300]);
+      }, 1200);
+    }
+
+    function stopVibrationLoop() {
+      if (!navigator.vibrate) return;
+      navigator.vibrate(0);
+      clearInterval(vibrationInterval);
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll('.content-page, .section').forEach(el => {
+        el.style.display = 'none';
+      });
+      document.getElementById(pageId).style.display = 'flex';
+
+      if (pageId === 'entry3') {
+        startVibrationLoop();
+      } else {
+        stopVibrationLoop();
+      }
+    }
+
+    function goBack() {
+      stopVibrationLoop();
+      showPage('home');
+    }
+
+    function stopVibrationAndBack() {
+      stopVibrationLoop();
+      showPage('home');
+    }
+  </script>
+
+</body>
+</html>
