@@ -18,7 +18,7 @@
       margin-top: 20px;
     }
 
-    /* Немного стилей для кнопок, чтобы выглядело аккуратно */
+    /* Немного стилей для кнопок */
     #home button {
       padding: 10px 20px;
       font-size: 16px;
@@ -33,7 +33,7 @@
     <p class="lost-records">записи утеряны</p>
   </div>
 
-  <!-- Главная страница с кнопками -->
+  <!-- Главная страница -->
   <div class="content-page" id="home">
     <button onclick="showPage('entry4')">Обращение</button>
     <button onclick="showPage('recordsPage')">Записи</button>
@@ -76,7 +76,15 @@
         el.style.display = 'none';
       });
       const page = document.getElementById(pageId);
-      if (page) page.style.display = 'flex'; // чтобы кнопки на главной были в ряд
+      if (page) {
+        // Для главной страницы оставляем flex (чтобы кнопки в ряд), для остальных — block
+        if (pageId === 'home') {
+          page.style.display = 'flex';
+        } else {
+          page.style.display = 'block';
+        }
+      }
+      
       if (pageId === 'entry3') {
         startVibrationLoop();
       } else {
@@ -84,11 +92,13 @@
       }
     }
 
-    // Запуск сразу главной страницы
+    // Показываем главную страницу при загрузке
     showPage('home');
   </script>
 
 </body>
 </html>
+
+
 
 
