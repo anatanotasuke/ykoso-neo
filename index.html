@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>いらっしゃいませ！</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Roboto&family=Caveat&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Roboto&family=Caveat&family=Anton&display=swap" rel="stylesheet" />
 
   <style>
     body {
@@ -95,7 +95,7 @@
 
     .flash-bg p {
       color: black;
-      font-family: 'Impact', 'Arial Black', sans-serif;
+      font-family: 'Anton', sans-serif;
       font-size: 6em;
       font-weight: bold;
       text-align: center;
@@ -124,8 +124,6 @@
   </style>
 </head>
 <body>
-
-  <audio id="entry3Sound" src="https://freesound.org/data/previews/794/794212_1285734-lq.mp3" preload="auto"></audio>
 
   <div class="section welcome" id="home">
     <h1>*いらっしゃいませ！*</h1>
@@ -164,7 +162,7 @@
 
   <div class="content-page flash-bg" id="entry3">
     <button class="back-button" onclick="stopVibrationAndBack()">Н4з4д.:)</button>
-    <p>Записи утеряны.</p>
+    <p>ЗАПИСИ УТЕРЯНЫ</p>
   </div>
 
   <div class="content-page" id="entry4">
@@ -182,32 +180,11 @@
     <p>Мио.. любимая мио...</p>
   </div>
 
+  <!-- Аудио для entry3 -->
+  <audio id="entry3Sound" src="https://freesound.org/data/previews/794/794212_1285734-lq.mp3" preload="auto"></audio>
+
   <script>
     let vibrationInterval;
-
-    function startVibrationLoop() {
-      if (!navigator.vibrate) return;
-      navigator.vibrate([200, 100, 200, 100, 200, 100, 300]);
-      vibrationInterval = setInterval(() => {
-        navigator.vibrate([200, 100, 200, 100, 200, 100, 300]);
-      }, 1200);
-    }
-
-    function stopVibrationLoop() {
-      if (!navigator.vibrate) return;
-      navigator.vibrate(0);
-      clearInterval(vibrationInterval);
-    }
-
-    function playEntry3Sound() {
-      const audio = document.getElementById('entry3Sound');
-      if (audio) {
-        audio.currentTime = 0;
-        audio.play().catch(err => {
-          console.log("Звук не воспроизведён:", err);
-        });
-      }
-    }
 
     function showPage(pageId) {
       document.querySelectorAll('.content-page, .section').forEach(el => {
@@ -217,9 +194,8 @@
 
       if (pageId === 'entry3') {
         startVibrationLoop();
-        playEntry3Sound();
-      } else {
-        stopVibrationLoop();
+        // Звук по первому клику
+        document.body.addEventListener('click', playEntry3SoundOnce, { once: true });
       }
     }
 
@@ -228,10 +204,31 @@
     }
 
     function stopVibrationAndBack() {
-      stopVibrationLoop();
+      if (navigator.vibrate) navigator.vibrate(0);
+      clearInterval(vibrationInterval);
       showPage('home');
+    }
+
+    function startVibrationLoop() {
+      if (navigator.vibrate) {
+        vibrationInterval = setInterval(() => {
+          navigator.vibrate([200, 100, 200, 100, 200]);
+        }, 1000);
+      }
+    }
+
+    function playEntry3SoundOnce() {
+      const audio = document.getElementById('entry3Sound');
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(err => {
+          console.log("Автовоспроизведение заблокировано:", err);
+        });
+      }
     }
   </script>
 
 </body>
 </html>
+
+
